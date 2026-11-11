@@ -1,18 +1,182 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
 
-# Other files and folders
-.settings/
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحدي العلوم</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f1f5f9;
+ color:#172554;
+}
+header{
+ background:linear-gradient(135deg,#082f49,#0369a1);
+ color:white;
+ text-align:center;
+ padding:35px 15px;
+}
+header h1{font-size:36px;margin:5px}
+header p{color:#dbeafe}
+nav{
+ background:#fff;
+ padding:15px;
+ text-align:center;
+ box-shadow:0 2px 8px #ddd;
+}
+nav a{
+ color:#0369a1;
+ text-decoration:none;
+ margin:10px;
+ font-weight:bold;
+}
+.container{
+ max-width:850px;
+ margin:30px auto;
+ padding:15px;
+}
+.card{
+ background:white;
+ padding:25px;
+ border-radius:18px;
+ margin-bottom:20px;
+ box-shadow:0 5px 20px #00000010;
+}
+h2{color:#0369a1}
+button{
+ background:#0284c7;
+ color:white;
+ border:0;
+ padding:13px 25px;
+ border-radius:10px;
+ font-size:17px;
+ cursor:pointer;
+}
+button:hover{background:#075985}
+.option{
+ display:block;
+ width:100%;
+ margin:10px 0;
+ background:#e0f2fe;
+ color:#075985;
+ text-align:right;
+}
+.option:hover{background:#bae6fd}
+#result{font-weight:bold;margin-top:15px}
+footer{
+ background:#082f49;
+ color:white;
+ text-align:center;
+ padding:20px;
+}
+</style>
+</head>
+<body>
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+<header>
+<h1>🔬 تحدي العلوم</h1>
+<p>اكتشف معلوماتك واختبر ذكاءك العلمي!</p>
+</header>
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+<nav>
+<a href="#home">الرئيسية</a>
+<a href="#challenge">التحدي</a>
+<a href="#about">عن الموقع</a>
+</nav>
+
+<div class="container">
+
+<section class="card" id="home">
+<h2>مرحباً بك في تحدي العلوم!</h2>
+<p>استعد لخوض تجربة علمية ممتعة واختبر معلوماتك في عالم العلوم.</p>
+<button onclick="startQuiz()">ابدأ التحدي</button>
+</section>
+
+<section class="card" id="challenge">
+<h2>🧠 الاختبار العلمي</h2>
+<p id="question">اضغط ابدأ التحدي للبدء.</p>
+<div id="answers"></div>
+<p id="result"></p>
+<p id="score"></p>
+</section>
+
+<section class="card" id="about">
+<h2>عن الموقع</h2>
+<p>تحدي العلوم موقع تعليمي يهدف إلى نشر المعرفة العلمية بطريقة ممتعة وتفاعلية.</p>
+</section>
+
+</div>
+
+<footer>
+<p>جميع الحقوق محفوظة © تحدي العلوم 2026</p>
+</footer>
+
+<script>
+const questions=[
+{q:"ما الكوكب المعروف بالكوكب الأحمر؟",
+a:["الأرض","المريخ","الزهرة"],
+c:1},
+{q:"ما الغاز الذي نتنفسه؟",
+a:["الأكسجين","النيتروجين","الهيدروجين"],
+c:0},
+{q:"ما مركز المجموعة الشمسية؟",
+a:["القمر","الأرض","الشمس"],
+c:2},
+{q:"ما العضو المسؤول عن ضخ الدم؟",
+a:["الرئة","القلب","المعدة"],
+c:1},
+{q:"ما أكبر كوكب في المجموعة الشمسية؟",
+a:["المشتري","عطارد","المريخ"],
+c:0}
+];
+
+let current=0;
+let points=0;
+
+function startQuiz(){
+ current=0;
+ points=0;
+ document.getElementById("result").textContent="";
+ showQuestion();
+}
+
+function showQuestion(){
+ if(current>=questions.length){
+ document.getElementById("question").textContent="انتهى التحدي!";
+ document.getElementById("answers").innerHTML="";
+ document.getElementById("result").textContent=
+ "نتيجتك: "+points+" من "+questions.length;
+ return;
+ }
+ let q=questions[current];
+ document.getElementById("question").textContent=
+ (current+1)+". "+q.q;
+ document.getElementById("score").textContent=
+ "السؤال "+(current+1)+" من "+questions.length;
+ document.getElementById("answers").innerHTML="";
+ q.a.forEach((answer,index)=>{
+ let btn=document.createElement("button");
+ btn.className="option";
+ btn.textContent=answer;
+ btn.onclick=()=>checkAnswer(index);
+ document.getElementById("answers").appendChild(btn);
+ });
+}
+
+function checkAnswer(index){
+ if(index===questions[current].c){
+ points++;
+ document.getElementById("result").textContent="إجابة صحيحة! أحسنت";
+ }else{
+ document.getElementById("result").textContent="إجابة غير صحيحة، حاول مرة أخرى في السؤال القادم.";
+ }
+ current++;
+ setTimeout(showQuestion,900);
+}
+</script>
+
+</body>
+</html>
